@@ -1,0 +1,86 @@
+CREATE TABLE [dbo].[MvtBIBLeitor](
+	[codLeitor] [int] IDENTITY(1,1) NOT NULL,
+	[leitor] [varchar](200) NOT NULL,
+	[sexo] [varchar](1) NOT NULL,
+	[dataNasciemento] [datetime] NOT NULL,
+	[cpf] [varchar](14) NULL,
+	[rg] [varchar](50) NULL,
+	[email] [varchar](200) NULL,
+	[telefone] [varchar](13) NULL,
+	[telefoneCelular] [varchar](13) NULL,
+	[enderecoNome] [varchar](200) NULL,
+	[enderecoBairro] [varchar](100) NULL,
+	[enderecoCidade] [varchar](100) NULL,
+	[enderecoCEP] [varchar](9) NULL,
+	[enderecoUF] [varchar](2) NULL,
+	[enderecoNumero] [varchar](10) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[codLeitor] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+CREATE TABLE [dbo].[MvtBIBLocal](
+	[codLocal] [int] IDENTITY(1,1) NOT NULL,
+	[descricaoLocal] [varchar](50) NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[codLocal] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+
+CREATE TABLE [dbo].[MvtBIBReserva](
+	[codItem] [int] IDENTITY(1,1) NOT NULL,
+	[nomeItem] [varchar](200) NULL,
+	[numExemplar] [int] NOT NULL,
+	[tipoItem] [varchar](200) NOT NULL,
+	[localizacao] [varchar](50) NOT NULL,
+	[codLeitor] [int] NOT NULL,
+	[nomeLeitor] [varchar](50) NOT NULL,
+	[dataReserva] [date] NULL,
+	[prazoReservs] [date] NULL,
+	[situacao] [varchar](50) NULL,
+	[tipoMovimento] [varchar](50) NULL
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[MvtBIBReserva]  WITH CHECK ADD FOREIGN KEY([codItem])
+REFERENCES [dbo].[mvtBiibItemAcervo] ([codItem])
+GO
+
+ALTER TABLE [dbo].[MvtBIBReserva]  WITH CHECK ADD FOREIGN KEY([codLeitor])
+REFERENCES [dbo].[MvtBIBLeitor] ([codLeitor])
+GO
+
+
+CREATE TABLE [dbo].[mvtBiibItemAcervo](
+	[codItem] [int] IDENTITY(1,1) NOT NULL,
+	[codLocal] [int] NOT NULL,
+	[codSecao] [int] NOT NULL,
+	[numExemplar] [int] NOT NULL,
+	[nome] [varchar](200) NOT NULL,
+	[codAutor] [int] NOT NULL,
+	[nomeAutor] [varchar](50) NOT NULL,
+	[codEditora] [int] NOT NULL,
+	[nomeEditora] [varchar](50) NOT NULL,
+	[tipoItem] [varchar](50) NOT NULL,
+	[nomeLocal] [varchar](50) NOT NULL,
+	[nomeColecao] [varchar](50) NOT NULL,
+	[volume] [int] NULL,
+	[anoEdicao] [int] NULL,
+	[localizacao] [varchar](50) NOT NULL,
+	[secao] [varchar](50) NULL,
+	[stts] [varchar](50) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[codItem] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[mvtBiibItemAcervo]  WITH CHECK ADD FOREIGN KEY([codAutor])
+REFERENCES [dbo].[mvtBiibAutor] ([codAutor])
+GO
